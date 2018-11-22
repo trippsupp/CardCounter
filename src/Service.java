@@ -6,13 +6,14 @@ import java.util.Random;
  */
 public class Service {        
     
-    private String[] cards = {"Ace", "Two", "Three", "Four", "Five", "Six",
-                              "Seven", "Eight", "Nine", "Ten", "Jack", "Queen",
-                              "King"};
-    
-    
-    
-    // counts of each card. max is 4
+    /** 
+     * array of strings where each string represents a type of card in Blackjack
+     */ 
+    private final String[] cards = {
+        "Ace", "Two", "Three", "Four", "Five", "Six",
+        "Seven", "Eight", "Nine", "Ten", "Jack", "Queen","King"};
+      
+    // how many times each card is dealt (4 is max)
     private int twoCount = 0;
     private int threeCount = 0;
     private int fourCount = 0;
@@ -29,100 +30,123 @@ public class Service {
     
     // the count of the deck
     private int cardCount = 0;
-    
-    // how many cards have been drawn
-    private int cardsDrawn = 0;
-    
-    // how many times there has been a redraw
-    private int cardsRedrawn = 0;
-       
+           
+    // standard size 52 card deck
     private final int DECK_SIZE = 52;
     
     /**
      * 
      */
-    public void deal(){
+    public void dealDeck(){
+        
         Random rand = new Random();
+        
         // loops through one deck of cards
         for (int DEAL_INDEX = 1; DEAL_INDEX <= DECK_SIZE; DEAL_INDEX++){
+            System.out.println("DEAL_INDEX is:" + DEAL_INDEX);
+            // if the pulled card has not hit its limit
+            if ( pullCard(rand.nextInt(13)) ){
+                // check the count after every card is dealt
+                checkIfHotOrCold();
+            }            
             
-            // draw a card
-            int card = rand.nextInt(13);            
+            // deal another card
+            else {
+                DEAL_INDEX--;
+            }
+            
+                        
+        }//for
+        
+    } //getCount   
+    
+  
+
+     /**
+      * Pulls a new card from the deck
+      * 
+      * @param _card the pulled card 
+      */
+    private boolean pullCard(int _card) {
+        int card = _card;            
+        boolean success = false;
             
             // determine the card
             if( cards[card].equals("Two") && twoCount < 4){
                 cardCount++;
                 twoCount++;
+                success = true;
             }
             else if( cards[card].equals("Three") && threeCount < 4){
                 cardCount++;
                 threeCount++;
+                success = true;
             }
             else if( cards[card].equals("Four") && fourCount < 4){
                 cardCount++;
                 fourCount++;
+                success = true;
             }
             else if( cards[card].equals("Five") && fiveCount < 4){
                 cardCount++;
                 fiveCount++;
+                success = true;
             }
             else if( cards[card].equals("Six") && sixCount < 4){
                 cardCount++;
                 sixCount++;
+                success = true;
             }
             else if( cards[card].equals("Seven") && sevenCount < 4){
                 //cardCount++;
                 sevenCount++;
+                success = true;
             }
             else if( cards[card].equals("Eight") && eightCount < 4){
                 //cardCount++;
                 eightCount++;
+                success = true;
             }
             else if( cards[card].equals("Nine") && nineCount < 4){
                 //cardCount++;
                 nineCount++;
+                success = true;
             }
             else if( cards[card].equals("Ten") && tenCount < 4){
                 cardCount--;
                 tenCount++;
+                success = true;
             }
             else if( cards[card].equals("Jack") && jackCount < 4){
                 cardCount--;
                 jackCount++;
+                success = true;
             }
             else if( cards[card].equals("Queen") && queenCount < 4){
                 cardCount--;
                 queenCount++;
+                success = true;
             }
             else if( cards[card].equals("King") && kingCount < 4){
                 cardCount--;
                 kingCount++;
+                success = true;
             }
             else if( cards[card].equals("Ace") && aceCount < 4){
                 cardCount--;
                 aceCount++;
+                success = true;
             }
-            // redraw because the card drawn has reached its limit of 4
-            else { 
-                //System.out.println("Redrawing at " + i + " with a " + cards[card]);
-                cardsRedrawn++;
-                DEAL_INDEX--; // reset i 
-            }
+
             
-            // check the count after every card is dealt
-            checkCount();
+        return success;
             
-            
-            cardsDrawn = DEAL_INDEX;
-            
-        }//for
-        
-    } //getCount   
+    }//pullCard()
     
-    /**
+      /**
      * Determines whether or not the count is hot or cold
      */
-    private void checkCount(){
+    private void checkIfHotOrCold(){
         if(cardCount>=3){
             System.out.println("Count is hot. Good time to bet.");
         }

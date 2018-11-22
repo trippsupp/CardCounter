@@ -36,6 +36,7 @@ public class Service {
     // how many times there has been a redraw
     private int cardsRedrawn = 0;
        
+    private final int DECK_SIZE = 52;
     
     /**
      * 
@@ -43,7 +44,7 @@ public class Service {
     public void deal(){
         
         // loops through one deck of cards
-        for (int i = 1; i <= 52; i++){
+        for (int DEAL_INDEX = 1; DEAL_INDEX <= DECK_SIZE; DEAL_INDEX++){
             
             // draw a card
             int card = rand.nextInt(13);            
@@ -105,14 +106,14 @@ public class Service {
             else { 
                 //System.out.println("Redrawing at " + i + " with a " + cards[card]);
                 cardsRedrawn++;
-                i--; // reset i 
+                DEAL_INDEX--; // reset i 
             }
             
             // check the count after every card is dealt
             checkCount();
             
             
-            cardsDrawn = i;
+            cardsDrawn = DEAL_INDEX;
             
         }//for
         

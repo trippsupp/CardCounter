@@ -13,7 +13,7 @@ public class Service {
         "Ace", "Two", "Three", "Four", "Five", "Six",
         "Seven", "Eight", "Nine", "Ten", "Jack", "Queen","King"};
       
-    // how many times each card is dealt (4 is max)
+    // times each card has been dealt (4 is max)
     private int twoCount = 0;
     private int threeCount = 0;
     private int fourCount = 0;
@@ -31,11 +31,15 @@ public class Service {
     // the count of the deck
     private int cardCount = 0;
            
-    // standard size 52 card deck
+    // size of one deck of cards
     private final int DECK_SIZE = 52;
     
+    // amount required for hot or cold streaks
+    private final int STREAK_MINIMUM = 3;
+    
     /**
-     * 
+     * Deals a new deck of cards of size `DECK_SIZE`
+     * Each time a card is dealt the count is checked for Hot or Cold streaks
      */
     public void dealDeck(){
         
@@ -43,28 +47,28 @@ public class Service {
         
         // loops through one deck of cards
         for (int DEAL_INDEX = 1; DEAL_INDEX <= DECK_SIZE; DEAL_INDEX++){
-            System.out.println("DEAL_INDEX is:" + DEAL_INDEX);
-            // if the pulled card has not hit its limit
+            
+            //System.out.println("DEAL_INDEX is:" + DEAL_INDEX);
+            
+            // pull a card
             if ( pullCard(rand.nextInt(13)) ){
                 // check the count after every card is dealt
+                System.out.print("On card " + DEAL_INDEX + " the ");
                 checkIfHotOrCold();
             }            
             
-            // deal another card
-            else {
+            // the card pulled has hit its limit. pull again
+            else {                
                 DEAL_INDEX--;
             }
-            
                         
         }//for
         
     } //getCount   
-    
-  
 
      /**
       * Pulls a new card from the deck
-      * 
+      * Each card can only be pulled 4 times
       * @param _card the pulled card 
       */
     private boolean pullCard(int _card) {
@@ -137,7 +141,11 @@ public class Service {
                 aceCount++;
                 success = true;
             }
-
+            
+            // here for debugging
+            else {
+                //System.out.println("### " + cards[card] + " HIT LIMIT ###");
+            }
             
         return success;
             
@@ -147,11 +155,24 @@ public class Service {
      * Determines whether or not the count is hot or cold
      */
     private void checkIfHotOrCold(){
-        if(cardCount>=3){
-            System.out.println("Count is hot. Good time to bet.");
+        if(cardCount >= STREAK_MINIMUM){
+            if (cardCount >= 5) {
+                System.out.println("Count is VERY hot.");
+            }
+            else {
+                System.out.println("Count is hot.");
+            }
         }
-        else if(cardCount<=-3){
-            System.out.println("Count is cold. Bad time to bet.");
+        else if(cardCount <= -STREAK_MINIMUM){
+            if (cardCount <= -5) {
+                System.out.println("Count is VERY cold.");
+            }
+            else {
+                System.out.println("Count is cold.");
+            }
+        }
+        else {
+            System.out.println("Count is normal.");
         }
     }
     
@@ -159,7 +180,7 @@ public class Service {
      * Returns the current card count
      * @return the card count
      */
-     public int getCount(){
+     private int getCount(){
         return cardCount;
     }
      

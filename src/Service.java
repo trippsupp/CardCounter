@@ -10,7 +10,7 @@ public class Service {
                               "Seven", "Eight", "Nine", "Ten", "Jack", "Queen",
                               "King"};
     
-    private Random rand = new Random();
+    
     
     // counts of each card. max is 4
     private int twoCount = 0;
@@ -42,7 +42,7 @@ public class Service {
      * 
      */
     public void deal(){
-        
+        Random rand = new Random();
         // loops through one deck of cards
         for (int DEAL_INDEX = 1; DEAL_INDEX <= DECK_SIZE; DEAL_INDEX++){
             

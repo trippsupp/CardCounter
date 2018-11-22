@@ -180,7 +180,7 @@ public class Service {
      * Returns the current card count
      * @return the card count
      */
-     private int getCount(){
+    private int getCount(){
         return cardCount;
     }
      
